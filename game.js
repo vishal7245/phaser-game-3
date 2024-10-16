@@ -91,7 +91,7 @@ class playGame extends Phaser.Scene{
         this.input.on("pointerdown", this.throwKnife, this);
 
         // Display the userID on the screen
-        this.userIdText = this.add.text(20, 20, "User ID: " + userID, {
+        this.userIdText = this.add.text(20, 20, "User ID: " + "Hi", {
             font: "32px Arial",
             fill: "#ffffff"
         });
