@@ -1,10 +1,9 @@
-
 // the game itself
 var game;
+var userID = null; // Variable to store the userID
 
 // global game options
 var gameOptions = {
-
     // target rotation speed, in degrees per frame
     rotationSpeed: 3,
 
@@ -12,33 +11,45 @@ var gameOptions = {
     throwSpeed: 150
 }
 
+// Function to get the userID from the Android app
+function getUserIDFromApp() {
+    if (window.AndroidInterface && typeof AndroidInterface.getUserID === 'function') {
+        userID = AndroidInterface.getUserID(); // Get the userID from the Kotlin WebView
+    } else {
+        userID = "No UserID Available"; // Fallback text
+    }
+}
+
 // once the window loads...
 window.onload = function() {
+
+    // First, get the userID from the Android app
+    getUserIDFromApp();
 
     // game configuration object
     var gameConfig = {
 
         // render type
-       type: Phaser.CANVAS,
+        type: Phaser.CANVAS,
 
-       // game width, in pixels
-       width: 750,
+        // game width, in pixels
+        width: 750,
 
-       // game height, in pixels
-       height: 1334,
+        // game height, in pixels
+        height: 1334,
 
-       // game background color
-       backgroundColor: 0x444444,
+        // game background color
+        backgroundColor: 0x444444,
 
-       // scenes used by the game
-       scene: [playGame]
+        // scenes used by the game
+        scene: [playGame]
     };
 
     // game constructor
     game = new Phaser.Game(gameConfig);
 
     // pure javascript to give focus to the page/frame and scale the game
-    window.focus()
+    window.focus();
     resize();
     window.addEventListener("resize", resize, false);
 }
@@ -53,7 +64,6 @@ class playGame extends Phaser.Scene{
 
     // method to be executed when the scene preloads
     preload(){
-
         // loading assets
         this.load.image("target", "target.png");
         this.load.image("knife", "knife.png");
@@ -79,6 +89,15 @@ class playGame extends Phaser.Scene{
 
         // waiting for player input to throw a knife
         this.input.on("pointerdown", this.throwKnife, this);
+
+        // Display the userID on the screen
+        this.userIdText = this.add.text(20, 20, "User ID: " + userID, {
+            font: "32px Arial",
+            fill: "#ffffff"
+        });
+
+        // Align the text in the center, you can adjust positioning as needed
+        this.userIdText.setOrigin(0, 0);
     }
 
     // method to throw a knife
