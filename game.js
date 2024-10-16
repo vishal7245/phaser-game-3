@@ -70,6 +70,7 @@ class playGame extends Phaser.Scene{
     }
 
     // method to be executed once the scene has been created
+    // method to be executed once the scene has been created
     create(){
 
         // can the player throw a knife? Yes, at the beginning of the game
@@ -90,15 +91,16 @@ class playGame extends Phaser.Scene{
         // waiting for player input to throw a knife
         this.input.on("pointerdown", this.throwKnife, this);
 
-        // Display the userID on the screen
-        this.userIdText = this.add.text(20, 20, "User ID: " + "Hi", {
-            font: "32px Arial",
+        // Display the userID in big font at the center
+        this.userIdText = this.add.text(game.config.width / 2, game.config.height / 2, userID, {
+            font: "64px Arial",
             fill: "#ffffff"
         });
 
-        // Align the text in the center, you can adjust positioning as needed
-        this.userIdText.setOrigin(0, 0);
+        // Center the text both horizontally and vertically
+        this.userIdText.setOrigin(0.5, 0.5);
     }
+
 
     // method to throw a knife
     throwKnife(){
